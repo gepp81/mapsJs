@@ -6,9 +6,24 @@ router.get('/', function(req, res, next){
   Category.find(function(err, categories){
     if (err)
       res.send(err);
-    else {
-      res.json(categories);
-    }
+    res.json(categories);
+  });
+});
+
+router.post('/', function(req, res, next){
+  Category.count({name:req.body.name}, function(err, counts){
+      if (counts > 0) {
+        res.status(500).send("Exists this name");
+      } else {
+        var cat = new Category({
+          name : req.body.name
+        });
+        cat.save(function(err, result){
+          if (err)
+            res.status(500).send(err);
+          res.json(result);
+        });
+      }
   });
 });
 
