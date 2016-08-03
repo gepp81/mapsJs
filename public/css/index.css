@@ -1,0 +1,75 @@
+/** Mapas **/
+
+.angular-google-map-container {
+    height: 100%;
+    width: 100%;
+}
+
+#mdqmap {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+.width100 {
+    width: 100%;
+}
+
+.width80 {
+    width: 80%;
+}
+
+.width20 {
+    width: 20%;
+}
+
+
+/** Cuadro de busqueda **/
+
+#search {
+    position: absolute;
+    z-index: 2;
+    top: 1%;
+    width: 98%;
+    margin: 0 1% 0 1%;
+}
+
+#activeSearch {
+    width: 100%;
+    height: 100%;
+}
+
+#categoryTagsView {
+    width: 100%;
+}
+
+#searchRow {
+    z-index: 3;
+    margin: 0.8% 1% 0 1%;
+}
+
+#divMenu .panel-group {
+    margin-bottom: 1px!important;
+}
+
+#panelLocation {
+    z-index: 4;
+}
+
+
+/***  Div de items ***/
+
+.markerLabelTitle {
+    display: block;
+}
+
+.markerLabelDescription {
+    display: block;
+}
+
+.markerLabelDescription {
+    display: block;
+}

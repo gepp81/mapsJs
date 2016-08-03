@@ -1,0 +1,42 @@
+/** Editor **/
+
+body > .editorContainer {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.angular-google-map-container {
+    width: 100%;
+    height: 65%;
+}
+
+.width100 {
+    width: 100%;
+}
+
+.width80 {
+    width: 80%;
+}
+
+.width20 {
+    width: 20%;
+}
+
+.itemForm .col-md-6 {
+    margin-bottom: 5px;
+}
+
+.itemForm .col-md-12 {
+    margin-bottom: 5px;
+}
+
+.removeMarginBottom {
+    margin-bottom: 0px!important;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+    padding: 0px!important;
+    font-size: 0.9em;
+    padding-left: 3px!important;
+}

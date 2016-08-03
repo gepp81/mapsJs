@@ -10,7 +10,7 @@ var users = require('./routes/users');
 var apiRoutes = require('./routes/api');
 var categoryRoutes = require('./routes/category');
 
-var mongoose   = require('mongoose');
+var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/mapsJs');
 
 var app = express();
@@ -24,7 +24,9 @@ app.engine('.html', require('jade').renderFile);
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -63,6 +65,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
