@@ -11,7 +11,7 @@ var apiRoutes = require('./routes/api');
 var categoryRoutes = require('./routes/category');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/mapsJs');
+mongoose.connect('mongodb://5cff6a3a8fb7a647e43b29744aa18fef:catalina08@30-2a.mongo.evennode.com:27017/5cff6a3a8fb7a647e43b29744aa18fef');
 
 var app = express();
 
