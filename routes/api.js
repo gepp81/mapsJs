@@ -11,6 +11,14 @@ router.get('/point', function(req, res, next) {
   });
 });
 
+router.post('/point/byAll', function(req, res, next) {
+  Point.find({category : { $in: req.body.idCategories }}, function(err, points) {
+    if (err)
+      res.send(err);
+    res.json(points);
+  });
+});
+
 router.post('/point', function(req, res, next) {
   var point = new Point({
     name: req.body.name,

@@ -12,6 +12,7 @@ var categoryRoutes = require('./routes/category');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://master:master@ds145295.mlab.com:45295/mdqmaps');
+//mongoose.connect('mongodb://localhost/mapsJs');
 
 var app = express();
 

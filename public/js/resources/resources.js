@@ -1,11 +1,11 @@
 angular.module('services', [])
     .factory('SICRResource', function ($resource) {
-        return $resource('/mdqmaps/item/byAll/:circle/:idsCategories/:idsItems', {}, {
+        return $resource('/api/point/byAll/:circle/:idCategories/:idsItems', {}, {
             getAll: {
                 method: 'POST',
                 data: {
                     circle: '@circle',
-                    idsCategories: '@idsCategories',
+                    idCategories: '@idCategories',
                     idsItems: '@idsItems'
                 },
                 isArray: true,

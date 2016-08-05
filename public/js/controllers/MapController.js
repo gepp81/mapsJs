@@ -297,7 +297,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
 
         var catIds = [];
         for (var i = 0; i < categories.length; i++) {
-            catIds.push(categories[i].id);
+            catIds.push(categories[i]._id);
         }
         var itemIds = [];
         for (var i = 0; i < items.length; i++) {
@@ -305,16 +305,37 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
         }
         SICRResource.getAll({
             circle: location,
-            idsCategories: catIds,
+            idCategories: catIds,
             idsItems: itemIds
         }, function (data) {
+
+        /*  {
+              "_id" : ObjectId("57a109770f8d8fd97186ae15"),
+              "name" : "Bs.As. y Colon",
+              "location" : [
+                  -57.545165,
+                  -38.006035
+              ],
+              "category" : [
+                  "57a4a9ffeaabd11100ff5546"
+              ]
+          }*/
+            var items = new Array();
             for (var item in data) {
-                var namesCats = new Array();
+                /*var namesCats = new Array();
                 for (var catKey in data[item].categories)
                     namesCats.push(data[item].categories[catKey].name);
-                data[item].categories = namesCats.join(', ');
+                data[item].categories = namesCats.join(', ');*/
+                var newItem = {
+                  latitude : data[item].location[1],
+                  longitude: data[item].location[0],
+                  name: data[item].name,
+                  id: data[item].name + data[item].location[0] + data[item].location[1]
+                };
+                items.push(newItem);
+
             }
-            $scope.markersResult = data;
+            $scope.markersResult = items;
         }, function (err) {
             console.log(err);
         });

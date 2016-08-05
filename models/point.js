@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 var PointSchema = new Schema({
   name: String,
-  location: [Number]
+  location: [Number],
+  category: { type : [String], index : true}
 });
 
 PointSchema.index({location: '2d'});
