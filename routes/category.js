@@ -35,7 +35,8 @@ router.post('/', function(req, res, next) {
       res.status(500).send("Exists this name");
     } else {
       var cat = new Category({
-        name: req.body.name
+        name: req.body.name,
+        uiType: req.body.uiType
       });
       cat.save(function(err, result) {
         if (err)
