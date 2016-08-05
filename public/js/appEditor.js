@@ -12,8 +12,8 @@ var app = angular.module('MDQMaps', ['ui.router', 'uiGmapgoogle-maps', 'ngResour
  */
 app.config(function (uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
-        key: 'AIzaSyDvT5MH70MLmBaSlKWwjeNrkOxSz9zwfLE',
-        v: '3.22',
+        key: 'AIzaSyBb-EXwVmr9P5X_z3Q4Fr_AR_JrvhIABjo',
+        v: '3.23',
         libraries: 'weather,geometry,visualization'
     });
 });

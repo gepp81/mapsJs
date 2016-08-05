@@ -1,13 +1,13 @@
 <div class="container" id="search">
-    <div class="input-group">
-        <span class="input-group-addon primary" ng-click="menuOpen = !menuOpen"><i class="fa fa-reorder fa-fw"></i></span>
-        <tags-input ng-model="selectedItems" display-property="name" add-from-autocomplete-only="true" placeholder="Buscar" on-tag-adding="transformChip($tag)"
-          on-tag-added="search($tag)" on-tag-removing="removeChip($tag)" replace-spaces-with-dashes="false">
-            <auto-complete minLength="3" source="getAutocomplete($query)"></auto-complete>
-        </tags-input>
-        <span class="input-group-addon info"><i class="fa fa-search fa-fw"></i></span>
-        <span class="input-group-addon default " ng-class="{ 'danger' : hasListItem(selectedItems)}" ng-click="clearList()"><i class="fa fa-remove fa-fw"></i></span>
-
-    </div>
-    <%@include file="menu.jsp" %>
+  <div class="input-group">
+    <span class="input-group-addon primary" ng-click="menuOpen = !menuOpen"><i class="fa fa-reorder fa-fw"></i></span>
+    <tags-input ng-model="selectedItems" display-property="name" add-from-autocomplete-only="true" placeholder="Buscar" on-tag-adding="transformChip($tag)" on-tag-added="search($tag)" on-tag-removing="removeChip($tag)" replace-spaces-with-dashes="false">
+      <auto-complete minLength="3" source="getAutocomplete($query)"></auto-complete>
+    </tags-input>
+    <span class="input-group-addon info"><i class="fa fa-search fa-fw"></i></span>
+    <span class="input-group-addon default " ng-class="{ 'danger' : hasListItem(selectedItems)}" ng-click="clearList()">
+      <i class="fa fa-remove fa-fw"></i>
+    </span>
+  </div>
+  <div ng-include="menu.html"></div>
 </div>

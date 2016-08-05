@@ -11,15 +11,14 @@ var apiRoutes = require('./routes/api');
 var categoryRoutes = require('./routes/category');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://master:master@ds145295.mlab.com:45295/mdqmaps');
-//mongoose.connect('mongodb://localhost/mapsJs');
+//mongoose.connect('mongodb://master:master@ds145295.mlab.com:45295/mdqmaps');
+mongoose.connect('mongodb://localhost/mapsJs');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 app.engine('.html', require('jade').renderFile);
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
