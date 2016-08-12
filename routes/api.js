@@ -11,24 +11,36 @@ router.get('/point', function(req, res, next) {
   });
 });
 
-router.post('/point/byAll', function(req, res, next) {
-  var search = {};
-  var canSearch = false;
+function generateSearch(req) {
+  var search = {
+    can: false
+  };
 
-  if (Array.isArray(req.body.idCategories) && req.body.idCategories.length > 0) {
+  var categories = req.body.idCategories;
+  if (Array.isArray(categories) && categories.length > 0) {
     search['category'] = {
-      $in: req.body.idCategories
+      $in: categories
     };
-    canSearch = true;
+    search['can'] = true;
   }
-  if (req.body.circle !== undefined && req.body.circle.lon != undefined && req.body.circle.lat !== undefined && req.body.circle.radius !== undefined) {
+  var circle = req.body.circle;
+  if (circle !== undefined && circle.lon != undefined && circle.lat !== undefined) {
+    if (circle.radius === undefined) {
+      circle.radius = 500;
+    }
     search['location'] = {
-      $near: [req.body.circle.lon, req.body.circle.lat],
-      $maxDistance: req.body.circle.radius / 1000 / 111.12
+      $near: [circle.lon, circle.lat],
+      $maxDistance: circle.radius / 1000 / 111.12
     };
-    canSearch = true;
+    search['can'] = true;
   }
-  if (canSearch) {
+  return search;
+}
+
+router.post('/point/byAll', function(req, res, next) {
+  var search = generateSearch(req);
+  if (search.can) {
+    delete search.can;
     Point.find(search,
       function(err, points) {
         if (err)
