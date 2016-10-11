@@ -17,7 +17,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
     /**
      * Vacia las listas con las categorias obtenidas y todos los items almacenados
      */
-    $scope.clearList = function () {
+    $scope.clearList = function() {
         $scope.selectedItems = [];
         $scope.markersResult = [];
         $scope.removeUserMarker();
@@ -52,7 +52,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
      * @param {Object} function
      * @return {Object}
      */
-    uiGmapGoogleMapApi.then(function (maps) {
+    uiGmapGoogleMapApi.then(function(maps) {
         $scope.map = {
             center: CENTER_MDQ,
             zoom: 16,
@@ -74,7 +74,56 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
                 }
             },
             control: {},
+            events: {
+                rightclick: function(event, eventName, point) {
+                    var searchPoint = {
+                        radius: $localStorage.radius ? $localStorage.radius : 500,
+                        lat: point[0].latLng.lat(),
+                        lon: point[0].latLng.lng(),
+                        uiType: '2'
+                    }
+                    $scope.selectedItems = new Array();
+                    $scope.selectedItems.push(searchPoint);
+                    $scope.search();
+
+                        var copia = $scope.circles[0];
+                        copia.center = {
+                            latitude: searchPoint.lat,
+                            longitude: searchPoint.lon
+                        };
+                        copia.visible= true;                    
+                }
+            }
         };
+
+        // $scope.prueba =
+        // {
+        //     id:1,
+        //     center: {
+        //         latitude: -38.007151,
+        //         longitude: -57.545251
+        //     },
+        //     radius : 500
+        // };
+
+        $scope.circles = [];
+        $scope.circle = {
+                        id: 1,
+                        center: CENTER_MDQ,
+                        radius: 500,
+                        stroke: {
+                            color: '#08B21F',
+                            weight: 2,
+                            opacity: 1
+                        },
+                        fill: {
+                            color: '#08B21F',
+                            opacity: 0.5
+                        },
+                        visible: false, // optional: defaults to true
+                        control: {}
+                    };
+            $scope.circles.push($scope.circle);
 
         // Crea el marcador para la localizacion dle usuario, pero no es visible pq no tiene coords
         $scope.marker = {
@@ -83,6 +132,8 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
                 icon: $location.path() + '/img/personMarker.svg'
             }
         };
+
+
 
         // Crea un arreglo con los marcadores vacios.
         $scope.markersResult = [];
@@ -94,7 +145,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
      * @param {Object} list
      * @return {Object}
      */
-    $scope.hasListItem = function (list) {
+    $scope.hasListItem = function(list) {
         return list.length > 0 ? true : false;
     }
 
@@ -103,10 +154,10 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
      * @param {Object} query
      * @return {Object}
      */
-    $scope.getAutocomplete = function (query) {
+    $scope.getAutocomplete = function(query) {
         return Autocomplete.get({
             name: query
-        }).$promise.then(function (result) {
+        }).$promise.then(function(result) {
             return result;
         });
     };
@@ -117,14 +168,14 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
      * @param {Object} chip
      * @return {Object}
      */
-    $scope.getUiTypeName = function (chip) {
+    $scope.getUiTypeName = function(chip) {
         switch (chip.uiType) {
-        case 1:
-            return "(" + CATEGORY + ")";
-        case 3:
-            return "(" + ITEM + ")";
-        default:
-            return ""
+            case 1:
+                return "(" + CATEGORY + ")";
+            case 3:
+                return "(" + ITEM + ")";
+            default:
+                return ""
         }
     }
 
@@ -134,16 +185,16 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
      * @param {Object} chip
      * @return {Object}
      */
-    $scope.getUiTypeColor = function (chip) {
+    $scope.getUiTypeColor = function(chip) {
         switch (chip.uiType) {
-        case 1:
-            return GREEN;
-        case 2:
-            return ORANGE;
-        case 3:
-            return BLUE;
-        default:
-            return GREY;
+            case 1:
+                return GREEN;
+            case 2:
+                return ORANGE;
+            case 3:
+                return BLUE;
+            default:
+                return GREY;
         }
     }
 
@@ -153,7 +204,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
      * @param {Object} chip
      * @return {Object}
      */
-    $scope.getChipInfo = function (chip) {
+    $scope.getChipInfo = function(chip) {
         return {
             color: $scope.getUiTypeColor(chip),
             comment: $scope.getUiTypeName(chip)
@@ -165,7 +216,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
      * @param {Object} chip
      * @return {Object}
      */
-    $scope.transformChip = function (chip) {
+    $scope.transformChip = function(chip) {
         if (angular.isObject(chip)) {
             //chip.info = $scope.getChipInfo(chip);
             return true;
@@ -176,7 +227,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
     /**
      * Remueve la coordenadas de la ubicacion
      */
-    $scope.removeUserMarker = function () {
+    $scope.removeUserMarker = function() {
         if ($scope.marker) {
             $scope.marker.coords = null;
         }
@@ -187,7 +238,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
      * @param {Object} chip Es el item que se agrega
      * @return {Object} chip
      */
-    $scope.removeChip = function (chip) {
+    $scope.removeChip = function(chip) {
         if (chip.uiType = 2) {
             $scope.location.active = false;
             $localStorage.location.active = false;
@@ -200,7 +251,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
     /**
      * Recupera la posicion del usuario
      */
-    $scope.processLocation = function (positionUser) {
+    $scope.processLocation = function(positionUser) {
         $scope.map.center = {
             latitude: positionUser.coords.latitude,
             longitude: positionUser.coords.longitude
@@ -227,11 +278,11 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
         $scope.search();
     }
 
-    $scope.processErrorLocation = function () {
+    $scope.processErrorLocation = function() {
         alert("El dispositivo no acepta GeoLocation.");
     }
 
-    $scope.getGeolocation = function () {
+    $scope.getGeolocation = function() {
         navigator.geolocation.getCurrentPosition($scope.processLocation, $scope.processErrorLocation, {
             timeout: 5000,
             enableHighAccuracy: false,
@@ -246,7 +297,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
             maximumAge: 60000
         });*/
 
-    $scope.activateGeolocation = function () {
+    $scope.activateGeolocation = function() {
         $localStorage.location.active = $scope.location.active;
         $localStorage.location.radius = $scope.location.radius;
         if ($scope.location.active) {
@@ -259,7 +310,7 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
         }
     }
 
-    $scope.changeMeters = function () {
+    $scope.changeMeters = function() {
         $scope.item = $filter('filter')($scope.selectedItems, {
             uiType: '2'
         })[0];
@@ -271,20 +322,20 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
 
     // Menu
 
-    $scope.setLocationMenuVisibility = function (value) {
+    $scope.setLocationMenuVisibility = function(value) {
         $scope.location.menu = value;
         $localStorage.location.menu = value;
     }
 
     // Llamadas de búsqueda
 
-    $scope.onClick = function (marker, eventName, model) {
+    $scope.onClick = function(marker, eventName, model) {
         console.log("Clicked!");
         model.show = !model.show;
     };
 
     /** Hace el get de items o subitems **/
-    $scope.search = function () {
+    $scope.search = function() {
         var categories = $filter('filter')($scope.selectedItems, {
             uiType: '1'
         });
@@ -307,19 +358,19 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
             circle: location,
             idCategories: catIds,
             idsItems: itemIds
-        }, function (data) {
+        }, function(data) {
 
-        /*  {
-              "_id" : ObjectId("57a109770f8d8fd97186ae15"),
-              "name" : "Bs.As. y Colon",
-              "location" : [
-                  -57.545165,
-                  -38.006035
-              ],
-              "category" : [
-                  "57a4a9ffeaabd11100ff5546"
-              ]
-          }*/
+            /*  {
+                  "_id" : ObjectId("57a109770f8d8fd97186ae15"),
+                  "name" : "Bs.As. y Colon",
+                  "location" : [
+                      -57.545165,
+                      -38.006035
+                  ],
+                  "category" : [
+                      "57a4a9ffeaabd11100ff5546"
+                  ]
+              }*/
             var items = new Array();
             for (var item in data) {
                 /*var namesCats = new Array();
@@ -327,22 +378,22 @@ function MapController($scope, $localStorage, $filter, $location, uiGmapGoogleMa
                     namesCats.push(data[item].categories[catKey].name);
                 data[item].categories = namesCats.join(', ');*/
                 var newItem = {
-                  latitude : data[item].location[1],
-                  longitude: data[item].location[0],
-                  name: data[item].name,
-                  id: data[item].name + data[item].location[0] + data[item].location[1]
+                    latitude: data[item].location[1],
+                    longitude: data[item].location[0],
+                    name: data[item].name,
+                    id: data[item].name + data[item].location[0] + data[item].location[1]
                 };
                 items.push(newItem);
 
             }
             $scope.markersResult = items;
-        }, function (err) {
+        }, function(err) {
             console.log(err);
         });
     }
 
     // Se ejecuta si el usuario tenia configurada la geopos en una anterior visita
-    angular.element(document).ready(function () {
+    angular.element(document).ready(function() {
         if ($scope.location.active) {
             $scope.activateGeolocation();
         }
